@@ -1,0 +1,43 @@
+const { Model, DataTypes,Table } = require('sequelize');
+const bcrypt = require('bcrypt');
+const sequelize = require('./sequelize');
+
+class User extends Model {}
+
+User.init({
+    first_name:{
+        type:DataTypes.STRING(255),
+    },
+    last_name:{
+        type:DataTypes.STRING(255),
+    },
+    email: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: false,
+        /*validate: {
+            isEmail: {
+                msg: "Enter a valid email address!"
+            },
+            notNull: {
+                msg: 'Email is required.'
+            },
+        }*/
+    },
+    email_verified_at:{
+        type:DataTypes.DATE,
+    },
+    mobile_no:{
+        type:DataTypes.NUMBER,
+    },
+    password:{
+        type:DataTypes.STRING
+    }
+}, {
+    sequelize,
+    modelName:'User',
+    underscored: true
+});
+
+
+module.exports = User;
