@@ -2,7 +2,18 @@ const { Model, DataTypes,Table } = require('sequelize');
 const bcrypt = require('bcrypt');
 const sequelize = require('./sequelize');
 
-class User extends Model {}
+const PROTECTED_ATTRIBUTES = ['password', 'token']
+
+class User extends Model {
+    toJSON () {
+        // hide protected fields
+        let attributes = Object.assign({}, this.get())
+        for (let a of PROTECTED_ATTRIBUTES) {
+            delete attributes[a]
+        }
+        return attributes
+    }
+}
 
 User.init({
     first_name:{
@@ -15,14 +26,14 @@ User.init({
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
-        /*validate: {
+        validate: {
             isEmail: {
                 msg: "Enter a valid email address!"
             },
             notNull: {
                 msg: 'Email is required.'
             },
-        }*/
+        }
     },
     email_verified_at:{
         type:DataTypes.DATE,
