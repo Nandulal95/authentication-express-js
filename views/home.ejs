@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+<div class="container">
+    <form action="" id="user-info-form" enctype="multipart/form-data">
+        <div class="row">
+            <div class="form-group">
+                <label for="">First Name</label>
+                <input type="text" class="form-control" name="first_name">
+            </div>
+            <div class="form-group">
+                <label for="">Last Name</label>
+                <input type="text" class="form-control" name="last_name">
+            </div>
+            <div class="form-group">
+                <label for="">Email</label>
+                <input type="text" class="form-control" name="email">
+            </div>
+            <div class="form-group">
+                <label for="">Mobile No</label>
+                <input type="text" class="form-control" name="mobile_no">
+            </div>
+            <div class="footer">
+                <button class="form">SUBMIT</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    document.getElementById('user-info-form').addEventListener('submit',async function (event){
+        event.preventDefault();
+        let form = new FormData(this);
+
+        /*fetch('http://localhost:8080/api/register',{
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify(Object.fromEntries(form.entries()))
+        }).then(function (response){
+            return response.json();
+        }).then(function (response){
+            alert(response.message);
+        }).catch(function (error){
+            console.log(error)
+        });*/
+        try{
+            let response = await fetch('http://localhost:8080/api/register',{
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify(Object.fromEntries(form.entries()))
+            })
+            let user = await response.json()
+
+            if(!user.status){
+                alert(user.message);
+            }
+        }catch (error){
+            console.error(error)
+        }
+    })
+</script>
+</body>
+</html>

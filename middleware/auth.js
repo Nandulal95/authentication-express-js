@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
  */
 async function authenticate(req, res, next) {
     const token = req.header('Authorization').split(' ')[1];
+    console.log(req.body)
 
     if (!token) return res.status(401).json({ message: 'Auth token is required!' });
 

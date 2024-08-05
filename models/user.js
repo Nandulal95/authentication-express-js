@@ -43,6 +43,16 @@ User.init({
     },
     password:{
         type:DataTypes.STRING
+    },
+    confirmPassword:{
+        type:DataTypes.VIRTUAL,
+        set(value){
+            if(value === this.password){
+                this.password = bcrypt.hashSync(value, 10);
+            }else {
+                throw Error('Confirm password is required!');
+            }
+        }
     }
 }, {
     sequelize,
